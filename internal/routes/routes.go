@@ -8,4 +8,5 @@ import (
 
 func RegisterRoutes() {
 	http.HandleFunc("/health", handlers.HealthHandler)
+	http.HandleFunc("/uuid", handlers.UUIDHandler)
 }
