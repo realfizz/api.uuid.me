@@ -8,11 +8,10 @@ import (
 	"api.uuid.me/internal/models"
 )
 
-
-func UUIDHandler(w http.ResponseWritter, r *http.Request) {
-	newUUID := uuid.new() // default is v4 btw
+func UUIDHandler(w http.ResponseWriter, r *http.Request) {
+	newUUID := uuid.New() // default is v4 btw
 
 	json.NewEncoder(w).Encode(models.Message{
 		Message: newUUID.String(),
-	}
+	})
 }
