@@ -3,15 +3,29 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 
 	"github.com/google/uuid"
-	"api.uuid.me/internal/models"
 )
 
 func UUIDHandler(w http.ResponseWriter, r *http.Request) {
-	newUUID := uuid.New() // default is v4 btw
+	countStr := r.URL.Query().Get("count")
+	count := 1
+	if countStr != "" {
+		var err error
+		count, err = strconv.Atoi(countStr)
+		if err != nil || count < 1 {
+			count = 1
+		}
+		if count > 100 {
+			count = 100
+		}
+	}
 
-	json.NewEncoder(w).Encode(models.Message{
-		Message: newUUID.String(),
-	})
+	uuids := make([]string, count)
+	for i := 0; i < count; i++ {
+		uuids[i] = uuid.New().String()
+	}
+
+	json.NewEncoder(w).Encode(uuids)
 }
